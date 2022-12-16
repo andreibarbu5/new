@@ -23,23 +23,6 @@ function Home() {
   const { t: translate } = useTranslation("navbar");
   return (
     <div className="">
-      {/* <div className="">
-        <select
-          id="language"
-          onChange={(l) => handleClick(l.currentTarget.value)}
-          value={locale}
-        >
-          {locales?.map((l) => (
-            <option key={l} value={l}>
-              {l}
-            </option>
-          ))}
-        </select>
-        <h1>{locale}</h1>
-
-        <h2>{translate("trade")}</h2>
-      </div> */}
-
       {/* Navbar */}
       <Navbar />
       {/* Hero */}
@@ -67,7 +50,18 @@ function Home() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["navbar"])),
+      ...(await serverSideTranslations(locale, [
+        "navbar",
+        "hero",
+        "about",
+        "contact",
+        "faq",
+        "team",
+        "trade",
+        "footer",
+        "imprint",
+        "dropdown",
+      ])),
     },
   };
 }

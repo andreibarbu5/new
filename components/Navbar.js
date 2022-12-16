@@ -4,11 +4,14 @@ import MenuIcon from "../public/MenuIcon";
 import CloseMenuIcon from "../public/CloseMenuIcon";
 import MenuDropDown from "../components/MenuDropDown";
 import { useRouter } from "next/router";
-
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
+import en from "../assets/en.png";
+import de from "../assets/de.png";
+
 const Navbar = () => {
-  const router = useRouter();
   const [isMenu, setIsMenu] = useState(false);
+  const router = useRouter();
   const { locale, locales, push } = useRouter();
   const handleClick = (l) => {
     push("/", undefined, { locale: l });
@@ -24,28 +27,38 @@ const Navbar = () => {
         </div>
 
         {/* Right Side*/}
-        <div className="">
-          <select
-            id="language"
-            onChange={(l) => handleClick(l.currentTarget.value)}
-            value={locale}
-          >
-            {locales?.map((l) => (
-              <option key={l} value={l}>
-                {l}
-              </option>
-            ))}
-          </select>
-        </div>
+
         {/* Burger Menu */}
         <div
-          className="lg:hidden bg-[#2b5852] p-1 -my-1 rounded-md"
+          className="lg:hidden flex items-center gap-4"
           onClick={() => setIsMenu(!isMenu)}
         >
+          {/* SELECT LANGUAGE */}
+          <div className={`z-50  flex items-center gap-1 right-[5rem]  `}>
+            <div className="">
+              {locale == "de" ? (
+                <Image src={de} className="w-6 h-6" />
+              ) : (
+                <Image src={en} className="w-6 h-6" />
+              )}
+            </div>
+            <select
+              id="language"
+              onChange={(l) => handleClick(l.currentTarget.value)}
+              value={locale}
+              className="outline-none bg-[#2d5d56] text-white  text-center"
+            >
+              {locales?.map((l) => (
+                <option key={l} value={l} id="option">
+                  {l.toUpperCase()}
+                </option>
+              ))}
+            </select>
+          </div>
           {isMenu ? (
-            <CloseMenuIcon className="text-white text-[26px] " />
+            <CloseMenuIcon className="bg-[#2b5852] p-1 -my-1 rounded-md text-white text-[34px] " />
           ) : (
-            <MenuIcon className="text-white text-[26px] " />
+            <MenuIcon className="bg-[#2b5852] p-1 -my-1 rounded-md text-white text-[34px] " />
           )}
         </div>
 
@@ -75,22 +88,52 @@ const Navbar = () => {
                 {translate("login")}
               </a>
             </li>
+            {/* SELECT LANGUAGE */}
+            <div
+              className={`z-50  flex items-center gap-1 right-[5rem]  ${
+                isMenu ? "hidden" : ""
+              } `}
+            >
+              <div className="">
+                {locale == "de" ? (
+                  <Image src={de} className="w-6 h-6" />
+                ) : (
+                  <Image src={en} className="w-6 h-6" />
+                )}
+              </div>
+              <select
+                id="language"
+                onChange={(l) => handleClick(l.currentTarget.value)}
+                value={locale}
+                className="outline-none bg-[#2d5d56] text-white  text-center"
+              >
+                {locales?.map((l) => (
+                  <option key={l} value={l} id="option">
+                    {l.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
           </ul>
         </div>
       </div>
 
-      {/* DropDown */}
-      <div
-        className={`-translate-y-[25rem] ${
-          isMenu && "translate-y-[0px]"
-        } duration-300 ease-out lg:hidden rounded-full`}
-      >
-        <div
-          className={`absolute bg-[#2d5d56] w-full  rounded-b-[0.8rem] ${
-            isMenu && "shadow-lg shadow-black/30"
-          }  `}
-        >
-          <MenuDropDown />
+      <div className="">
+        {/* DropDown */}
+        <div className="">
+          <div
+            className={`-translate-y-[25rem] ${
+              isMenu && "translate-y-[0px]"
+            } duration-300 ease-out lg:hidden rounded-full relative`}
+          >
+            <div
+              className={`absolute bg-[#2d5d56] w-full  rounded-b-[0.8rem] ${
+                isMenu && "shadow-lg shadow-black/30"
+              }  `}
+            >
+              <MenuDropDown />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -2,6 +2,8 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 const Market = () => {
   return (
     <div>
@@ -17,5 +19,22 @@ const Market = () => {
     </div>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "navbar",
+        "hero",
+        "about",
+        "contact",
+        "faq",
+        "team",
+        "trade",
+        "footer",
+      ])),
+    },
+  };
+}
 
 export default Market;

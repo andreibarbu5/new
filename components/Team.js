@@ -6,8 +6,10 @@ import three from "../assets/3.jpg";
 import four from "../assets/4.jpg";
 import Mail from "../public/MailSvg";
 import LinkedIn from "../public/LinkedInSvg";
+import { useTranslation } from "next-i18next";
 
 const Team = () => {
+  const { t: translate } = useTranslation("trade");
   return (
     <div
       id="team"
@@ -15,7 +17,7 @@ const Team = () => {
     >
       {/* Title */}
       <p className="text-[32px] font-semibold leading-[54px]">
-        Wer steckt hinter q-bility?
+        {translate("title")}
       </p>
 
       {/* Team */}
@@ -169,5 +171,13 @@ const Team = () => {
     </div>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["trade"])),
+    },
+  };
+}
 
 export default Team;
